@@ -1,6 +1,16 @@
-FROM python:3.7
+FROM python:3.7-slim
+
 WORKDIR /app
-COPY requirements.txt
-RUN pip install --upgrade pip RUN pip install -r requirements.txt || echo "Warning: Dependencies failed"
-COPY
+
+COPY requirements.txt .
+
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+COPY . .
+
+ENV DJANGO_SETTINGS_MODULE=astroedu.settings.dev
+
+EXPOSE 10000
+
 CMD ["python", "manage.py", "runserver", "0.0.0.0:10000"]
